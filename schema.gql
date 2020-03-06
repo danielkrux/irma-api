@@ -4,27 +4,48 @@
 # -----------------------------------------------
 
 input CreateIncidentDTO {
+  title: String!
+  description: String!
+  assignedTeamId: String!
+}
+
+input CreateTeamDTO {
   name: String!
   description: String!
 }
 
-type IncidentType {
+type Incident {
+  id: String!
+  title: String!
+  description: String!
+  assignedTeam: Team!
+}
+
+type Mutation {
+  createIncident(incident: CreateIncidentDTO!): Incident!
+  updateIncident(incident: UpdateIncidentDTO!): Incident!
+  createTeam(team: CreateTeamDTO!): Team!
+}
+
+type Query {
+  incidents: [Incident!]!
+  incident(id: String!): [Incident!]!
+}
+
+type Team {
   id: ID!
   name: String!
   description: String!
 }
 
-type Mutation {
-  createIncident(incident: CreateIncidentDTO!): IncidentType!
-  updateIncident(incident: UpdateIncidentDTO!): IncidentType!
-}
-
-type Query {
-  incidents: [IncidentType!]!
-  incident(id: String!): [IncidentType!]!
-}
-
 input UpdateIncidentDTO {
+  id: String!
+  title: String!
+  description: String!
+  assignedTeamId: String!
+}
+
+input UpdateTeamDTO {
   id: ID!
   name: String!
   description: String!

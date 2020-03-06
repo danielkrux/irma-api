@@ -1,14 +1,18 @@
 import { Document, Schema } from 'mongoose';
-import { ObjectType, Field, InputType, ID, ArgsType } from 'type-graphql';
+import { ObjectType, Field, InputType, ID, Int } from 'type-graphql';
+import { Team, CreateTeamDTO, UpdateTeamDTO } from '../teams/team';
 
 export const IncidentSchema = new Schema({
-  name: String,
+  title: String,
   description: String,
+  assignedTeam: { type: Schema.Types.ObjectId, ref: 'Team'}
 });
 
-export interface Incident extends Document {
-  name: String;
+export interface IncidentDocument extends Document {
+  id:string;
+  title: String;
   description: String;
+  team: Team
 }
 
 /////////////////////////
@@ -16,30 +20,35 @@ export interface Incident extends Document {
 /////////////////////////
 
 @ObjectType()
-export class IncidentType {
-  @Field(() => ID)
+export class Incident {
+  @Field()
   id: string;
   @Field()
-  name: String;
+  title: string;
   @Field()
-  description: String;
+  description: string;
+  @Field(() => Team)
+  assignedTeam: Team;
 }
 
-@ArgsType()
 @InputType()
 export class CreateIncidentDTO {
   @Field()
-  name: String;
+  title: string;
   @Field()
-  description: String;
+  description: string;
+  @Field()
+  assignedTeamId: string;
 }
 
 @InputType()
 export class UpdateIncidentDTO {
-  @Field(() => ID)
-  id: String;
   @Field()
-  name: String;
+  id: string;
   @Field()
-  description: String;
+  title: string;
+  @Field()
+  description: string;
+  @Field()
+  assignedTeamId: string;
 }
