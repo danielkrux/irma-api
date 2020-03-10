@@ -1,6 +1,6 @@
 import { Schema, Document } from 'mongoose';
 import { Field, ObjectType, InputType } from 'type-graphql';
-import { User } from 'src/users/user';
+import { User } from '../users/user';
 
 export const TeamSchema = new Schema({
   name: String,
@@ -31,7 +31,7 @@ export class Team {
   description: string;
   @Field(() => User)
   admin: User;
-  @Field(() => [User])
+  @Field(() => [User], { nullable: true })
   members: User[];
 }
 

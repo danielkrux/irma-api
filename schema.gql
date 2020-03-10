@@ -20,13 +20,24 @@ input CreateUserDTO {
   firstname: String!
   lastname: String!
   email: String!
+  password: String!
 }
 
 type Incident {
   id: String!
   title: String!
   description: String!
-  assignedTeam: Team!
+  assignedTeam: Team
+}
+
+input LoginDTO {
+  email: String!
+  password: String!
+}
+
+type LoginResponse {
+  accesToken: String!
+  user: User!
 }
 
 type Mutation {
@@ -35,6 +46,7 @@ type Mutation {
   createTeam(team: CreateTeamDTO!): Team!
   createUser(user: CreateUserDTO!): User!
   updateUser(user: UpdateUserDTO!): User!
+  login(loginAttempt: LoginDTO!): LoginResponse!
 }
 
 type Query {
@@ -50,7 +62,7 @@ type Team {
   name: String!
   description: String!
   admin: User!
-  members: [User!]!
+  members: [User!]
 }
 
 input UpdateIncidentDTO {

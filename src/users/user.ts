@@ -5,13 +5,14 @@ export const UserSchema = new Schema({
   firstname: String,
   lastname: String,
   email: String,
-
+  password: String,
 })
 
 export interface UserDocument extends Document {
   id: string;
   firstname: string;
   lastname:string;
+  password:string;
   email:string;
 }
 
@@ -39,6 +40,8 @@ export class CreateUserDTO {
   lastname: string;
   @Field()
   email: string;
+  @Field()
+  password: string;
 }
 
 @InputType()

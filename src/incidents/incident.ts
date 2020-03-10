@@ -5,14 +5,14 @@ import { Team } from '../teams/team';
 export const IncidentSchema = new Schema({
   title: String,
   description: String,
-  assignedTeam: { type: Schema.Types.ObjectId, ref: 'Team'}
+  assignedTeam: { type: Schema.Types.ObjectId, ref: 'Team' },
 });
 
 export interface IncidentDocument extends Document {
-  id:string;
+  id: string;
   title: String;
   description: String;
-  team: Team
+  team: Team;
 }
 
 /////////////////////////
@@ -27,7 +27,7 @@ export class Incident {
   title: string;
   @Field()
   description: string;
-  @Field(() => Team)
+  @Field(() => Team, { nullable: true })
   assignedTeam: Team;
 }
 

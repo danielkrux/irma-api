@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { UserDocument, CreateUserDTO, UpdateUserDTO } from './user';
 import { Model } from 'mongoose';
+import { hash } from 'argon2';
 
 @Injectable()
 export class UsersService {
@@ -17,7 +18,12 @@ export class UsersService {
     return await this.user.findById(id).exec();
   }
 
+  async getUserByEmail(email:string): Promise<UserDocument> {
+    return await this.user.findOne({email}).exec();
+  }
+
   async createUser(user: CreateUserDTO): Promise<UserDocument> {
+    user.password = await hash(user.password);
     return await (await this.user.create(user)).save();
   }
 

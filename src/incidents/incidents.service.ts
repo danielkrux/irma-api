@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, isValidObjectId } from 'mongoose';
 import {
   IncidentDocument,
   CreateIncidentDTO,
   UpdateIncidentDTO,
 } from './incident';
-import { TeamsService } from 'src/teams/teams.service';
+import { TeamsService } from '../teams/teams.service';
 
 @Injectable()
 export class IncidentsService {
@@ -29,11 +29,13 @@ export class IncidentsService {
   }
 
   async createIncident(incident: CreateIncidentDTO): Promise<IncidentDocument> {
-    const { _id } = await this.teamsService.getTeam(incident.assignedTeamId);
+    if(!isValidObjectId(incident.assignedTeamId)) throw new Error('Not a valid id');
+    const team= await this.teamsService.getTeam(incident.assignedTeamId);
+    if(!team) throw new Error('Team not found');
     const newIncident = {
       title: incident.title,
       description: incident.description,
-      assignedTeam: _id,
+      assignedTeam: team.id,
     };
     return await (await this.incident.create(newIncident)).save();
   }
