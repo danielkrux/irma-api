@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { IncidentsService } from './incidents/incidents.service';
 import { IncidentsModule } from './incidents/incidents.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TeamsModule } from './teams/team.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -16,6 +16,7 @@ import { TeamsModule } from './teams/team.module';
     }),
     IncidentsModule,
     TeamsModule,
+    UsersModule,
   ],
 })
 export class AppModule {}

@@ -5,7 +5,6 @@ import {
   IncidentDocument,
   CreateIncidentDTO,
   UpdateIncidentDTO,
-  Incident,
 } from './incident';
 import { TeamsService } from 'src/teams/teams.service';
 

@@ -1,6 +1,6 @@
 import { Document, Schema } from 'mongoose';
-import { ObjectType, Field, InputType, ID, Int } from 'type-graphql';
-import { Team, CreateTeamDTO, UpdateTeamDTO } from '../teams/team';
+import { ObjectType, Field, InputType } from 'type-graphql';
+import { Team } from '../teams/team';
 
 export const IncidentSchema = new Schema({
   title: String,

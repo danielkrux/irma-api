@@ -7,7 +7,10 @@ import { TeamsService } from 'src/teams/teams.service';
 import { TeamsModule } from 'src/teams/team.module';
 
 @Module({
-  imports: [MongooseModule.forFeature([{name: 'Incident', schema: IncidentSchema}]), TeamsModule],
+  imports: [
+    MongooseModule.forFeature([{ name: 'Incident', schema: IncidentSchema }]),
+    TeamsModule,
+  ],
   providers: [IncidentsResolver, IncidentsService],
 })
 export class IncidentsModule {}

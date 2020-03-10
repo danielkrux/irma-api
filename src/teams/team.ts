@@ -1,14 +1,20 @@
-import { Schema, Document } from "mongoose";
-import { Field, ObjectType, ID, InputType } from "type-graphql";
+import { Schema, Document } from 'mongoose';
+import { Field, ObjectType, InputType } from 'type-graphql';
+import { User } from 'src/users/user';
 
 export const TeamSchema = new Schema({
-  name:String,
-  description:String,
-})
+  name: String,
+  description: String,
+  admin: { type: Schema.Types.ObjectId, ref: 'User' },
+  members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+});
 
 export interface TeamDocument extends Document {
-  name:String,
-  description: String
+  id: string;
+  name: String;
+  description: String;
+  admin: User;
+  members: User[];
 }
 
 /////////////////////////
@@ -17,28 +23,40 @@ export interface TeamDocument extends Document {
 
 @ObjectType()
 export class Team {
-  @Field(() => ID)
+  @Field()
   id: string;
   @Field()
-  name: String;
+  name: string;
   @Field()
-  description: String;
+  description: string;
+  @Field(() => User)
+  admin: User;
+  @Field(() => [User])
+  members: User[];
 }
 
 @InputType()
 export class CreateTeamDTO {
   @Field()
-  name: String;
+  name: string;
   @Field()
-  description: String;
+  description: string;
+  @Field()
+  admin: string;
+  @Field(() => [String])
+  members: string[];
 }
 
 @InputType()
 export class UpdateTeamDTO {
-  @Field(() => ID)
-  id: String;
   @Field()
-  name: String;
+  id: string;
   @Field()
-  description: String;
+  name: string;
+  @Field()
+  description: string;
+  @Field()
+  admin: string;
+  @Field(() => [String])
+  member: string[];
 }

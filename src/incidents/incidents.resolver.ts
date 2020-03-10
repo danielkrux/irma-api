@@ -25,5 +25,4 @@ export class IncidentsResolver {
   async updateIncident(@Args('incident') input: UpdateIncidentDTO) {
     return this.incidentsService.updateIncident(input);
   }
-
 }

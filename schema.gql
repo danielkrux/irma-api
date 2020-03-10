@@ -12,6 +12,14 @@ input CreateIncidentDTO {
 input CreateTeamDTO {
   name: String!
   description: String!
+  admin: String!
+  members: [String!]!
+}
+
+input CreateUserDTO {
+  firstname: String!
+  lastname: String!
+  email: String!
 }
 
 type Incident {
@@ -25,17 +33,24 @@ type Mutation {
   createIncident(incident: CreateIncidentDTO!): Incident!
   updateIncident(incident: UpdateIncidentDTO!): Incident!
   createTeam(team: CreateTeamDTO!): Team!
+  createUser(user: CreateUserDTO!): User!
+  updateUser(user: UpdateUserDTO!): User!
 }
 
 type Query {
   incidents: [Incident!]!
   incident(id: String!): [Incident!]!
+  teams: [Team!]!
+  users: [User!]!
+  user(id: String!): [User!]!
 }
 
 type Team {
-  id: ID!
+  id: String!
   name: String!
   description: String!
+  admin: User!
+  members: [User!]!
 }
 
 input UpdateIncidentDTO {
@@ -46,7 +61,23 @@ input UpdateIncidentDTO {
 }
 
 input UpdateTeamDTO {
-  id: ID!
+  id: String!
   name: String!
   description: String!
+  admin: String!
+  member: [String!]!
+}
+
+input UpdateUserDTO {
+  id: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+}
+
+type User {
+  id: String!
+  firstname: String!
+  lastname: String!
+  email: String!
 }
