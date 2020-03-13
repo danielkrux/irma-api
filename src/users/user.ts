@@ -23,13 +23,13 @@ export interface UserDocument extends Document {
 @ObjectType()
 export class User {
   @Field()
-  id:string;
-  @Field()
-  firstname:string;
-  @Field()
-  lastname:string;
-  @Field()
-  email:string;
+  id: string;
+  @Field({ nullable: true })
+  firstname: string;
+  @Field({ nullable: true })
+  lastname: string;
+  @Field({ nullable: true })
+  email: string;
 }
 
 @InputType()
@@ -48,10 +48,10 @@ export class CreateUserDTO {
 export class UpdateUserDTO {
   @Field()
   id: string;
-  @Field()
+  @Field({ nullable: true })
   firstname: string;
-  @Field()
+  @Field({ nullable: true })
   lastname: string;
-  @Field()
+  @Field({ nullable: true })
   email: string;
 }

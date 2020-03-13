@@ -25,4 +25,9 @@ export class IncidentsResolver {
   async updateIncident(@Args('incident') input: UpdateIncidentDTO) {
     return this.incidentsService.updateIncident(input);
   }
+
+  @Mutation(() => Boolean)
+  async deleteIncident(@Args('incidentId') id: string) {
+    return this.incidentsService.deleteIncident(id);
+  }
 }

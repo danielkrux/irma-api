@@ -1,11 +1,11 @@
-import { User } from "../users/user";
-import { ObjectType, Field, InputType } from "type-graphql";
+import { User } from '../users/user';
+import { ObjectType, Field, InputType } from 'type-graphql';
 
 @ObjectType()
 export class LoginResponse {
   @Field()
   accesToken: string;
-  @Field()
+  @Field({ nullable: true })
   user: User;
 }
 

@@ -18,7 +18,10 @@ export class IncidentsService {
   async getIncidents(): Promise<IncidentDocument[]> {
     return (await this.incident
       .find()
-      .populate('assignedTeam')
+      .populate({
+        path: 'assignedTeam',
+        populate: ['admin', 'members'],
+      })
       .exec()) as IncidentDocument[];
   }
 
@@ -29,9 +32,10 @@ export class IncidentsService {
   }
 
   async createIncident(incident: CreateIncidentDTO): Promise<IncidentDocument> {
-    if(!isValidObjectId(incident.assignedTeamId)) throw new Error('Not a valid id');
-    const team= await this.teamsService.getTeam(incident.assignedTeamId);
-    if(!team) throw new Error('Team not found');
+    if (!isValidObjectId(incident.assignedTeamId))
+      throw new Error('Not a valid id');
+    const team = await this.teamsService.getTeam(incident.assignedTeamId);
+    if (!team) throw new Error('Team not found');
     const newIncident = {
       title: incident.title,
       description: incident.description,

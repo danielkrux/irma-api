@@ -25,11 +25,11 @@ export interface TeamDocument extends Document {
 export class Team {
   @Field()
   id: string;
-  @Field()
+  @Field({ nullable: true })
   name: string;
-  @Field()
+  @Field({ nullable: true })
   description: string;
-  @Field(() => User)
+  @Field(() => User, { nullable: true })
   admin: User;
   @Field(() => [User], { nullable: true })
   members: User[];
@@ -51,12 +51,12 @@ export class CreateTeamDTO {
 export class UpdateTeamDTO {
   @Field()
   id: string;
-  @Field()
+  @Field({ nullable: true })
   name: string;
-  @Field()
+  @Field({ nullable: true })
   description: string;
-  @Field()
+  @Field({ nullable: true })
   admin: string;
-  @Field(() => [String])
-  member: string[];
+  @Field(() => [String], { nullable: true })
+  members: string[];
 }

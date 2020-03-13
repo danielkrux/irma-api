@@ -25,8 +25,8 @@ input CreateUserDTO {
 
 type Incident {
   id: String!
-  title: String!
-  description: String!
+  title: String
+  description: String
   assignedTeam: Team
 }
 
@@ -37,13 +37,17 @@ input LoginDTO {
 
 type LoginResponse {
   accesToken: String!
-  user: User!
+  user: User
 }
 
 type Mutation {
   createIncident(incident: CreateIncidentDTO!): Incident!
   updateIncident(incident: UpdateIncidentDTO!): Incident!
+  deleteIncident(incidentId: String!): Boolean!
   createTeam(team: CreateTeamDTO!): Team!
+  updateTeam(team: UpdateTeamDTO!): Team!
+  createMemberAndAdd(team: UpdateTeamDTO!, user: CreateUserDTO!): Team!
+  addMember(team: UpdateTeamDTO!, userId: String!): Team!
   createUser(user: CreateUserDTO!): User!
   updateUser(user: UpdateUserDTO!): User!
   login(loginAttempt: LoginDTO!): LoginResponse!
@@ -53,43 +57,44 @@ type Query {
   incidents: [Incident!]!
   incident(id: String!): [Incident!]!
   teams: [Team!]!
+  team(teamId: String, userId: String): Team!
   users: [User!]!
   user(id: String!): [User!]!
 }
 
 type Team {
   id: String!
-  name: String!
-  description: String!
-  admin: User!
+  name: String
+  description: String
+  admin: User
   members: [User!]
 }
 
 input UpdateIncidentDTO {
   id: String!
-  title: String!
-  description: String!
-  assignedTeamId: String!
+  title: String
+  description: String
+  assignedTeamId: String
 }
 
 input UpdateTeamDTO {
   id: String!
-  name: String!
-  description: String!
-  admin: String!
-  member: [String!]!
+  name: String
+  description: String
+  admin: String
+  members: [String!]
 }
 
 input UpdateUserDTO {
   id: String!
-  firstname: String!
-  lastname: String!
-  email: String!
+  firstname: String
+  lastname: String
+  email: String
 }
 
 type User {
   id: String!
-  firstname: String!
-  lastname: String!
-  email: String!
+  firstname: String
+  lastname: String
+  email: String
 }

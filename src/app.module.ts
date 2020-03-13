@@ -10,7 +10,8 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     MongooseModule.forRoot('mongodb://localhost/irma', {
       useNewUrlParser: true,
-      useUnifiedTopology:true
+      useUnifiedTopology: true,
+      useFindAndModify: false,
     }),
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',

@@ -23,9 +23,9 @@ export interface IncidentDocument extends Document {
 export class Incident {
   @Field()
   id: string;
-  @Field()
+  @Field({nullable:true})
   title: string;
-  @Field()
+  @Field({nullable:true})
   description: string;
   @Field(() => Team, { nullable: true })
   assignedTeam: Team;
@@ -45,10 +45,10 @@ export class CreateIncidentDTO {
 export class UpdateIncidentDTO {
   @Field()
   id: string;
-  @Field()
+  @Field({ nullable: true })
   title: string;
-  @Field()
+  @Field({ nullable: true })
   description: string;
-  @Field()
+  @Field({ nullable: true })
   assignedTeamId: string;
 }
