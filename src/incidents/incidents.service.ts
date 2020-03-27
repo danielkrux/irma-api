@@ -39,7 +39,9 @@ export class IncidentsService {
     const newIncident = {
       title: incident.title,
       description: incident.description,
+      location: incident.location,
       assignedTeam: team.id,
+      created: Date.now()
     };
     return await (await this.incident.create(newIncident)).save();
   }
