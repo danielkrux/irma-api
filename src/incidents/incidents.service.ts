@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, isValidObjectId } from 'mongoose';
+import { Model, isValidObjectId, Types} from 'mongoose';
 import {
   IncidentDocument,
   CreateIncidentDTO,
   UpdateIncidentDTO,
+  Incident,
 } from './incident';
 import { TeamsService } from '../teams/teams.service';
 
@@ -13,11 +14,12 @@ export class IncidentsService {
   constructor(
     @InjectModel('Incident') private readonly incident: Model<IncidentDocument>,
     private readonly teamsService: TeamsService,
-  ) {}
+  ) { }
 
   async getIncidents(): Promise<IncidentDocument[]> {
     return (await this.incident
       .find()
+      .populate('assignedTeam')
       .populate({
         path: 'assignedTeam',
         populate: ['admin', 'members'],
@@ -32,18 +34,12 @@ export class IncidentsService {
   }
 
   async createIncident(incident: CreateIncidentDTO): Promise<IncidentDocument> {
-    if (!isValidObjectId(incident.assignedTeamId))
-      throw new Error('Not a valid id');
+    if (!isValidObjectId(incident.assignedTeamId)) throw new Error('Not a valid team id');
     const team = await this.teamsService.getTeam(incident.assignedTeamId);
     if (!team) throw new Error('Team not found');
-    const newIncident = {
-      title: incident.title,
-      description: incident.description,
-      location: incident.location,
-      assignedTeam: team.id,
-      created: Date.now()
-    };
-    return await (await this.incident.create(newIncident)).save();
+    const assignedTeamObjectId = Types.ObjectId(incident.assignedTeamId)
+    console.log(incident)
+    return await this.incident.create({...incident, assignedTeam: assignedTeamObjectId, resolved: false})
   }
 
   async updateIncident(incident: UpdateIncidentDTO): Promise<IncidentDocument> {

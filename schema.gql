@@ -36,7 +36,9 @@ type Incident {
   title: String
   description: String
   location: Location
-  photos: [String!]!
+  photos: [String!]
+  resolved: Boolean!
+  priority: String
   assignedTeam: Team
   created: DateTime!
 }
@@ -97,10 +99,12 @@ input UpdateIncidentDTO {
   id: String!
   title: String
   description: String
-  photos: [String!]!
+  photos: [String!]
+  resolved: Boolean!
+  priority: String
   location: LocationDTO
   assignedTeamId: String
-  created: DateTime!
+  created: DateTime
 }
 
 input UpdateTeamDTO {

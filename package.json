@@ -25,8 +25,10 @@
     "@nestjs/graphql": "^6.6.2",
     "@nestjs/mongoose": "^6.3.1",
     "@nestjs/platform-express": "^6.10.14",
+    "@types/web-push": "^3.3.0",
     "apollo-server-express": "^2.11.0",
     "argon2": "^0.26.1",
+    "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
     "graphql": "^14.6.0",
     "graphql-tools": "^4.0.7",
@@ -35,7 +37,8 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.4",
-    "type-graphql": "^0.17.6"
+    "type-graphql": "^0.17.6",
+    "web-push": "^3.4.3"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.13.2",

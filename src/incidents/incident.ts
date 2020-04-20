@@ -8,6 +8,8 @@ export const IncidentSchema = new Schema({
   description: String,
   location: LocationSchema,
   photos: [String],
+  resolved: Boolean,
+  priority: String,
   assignedTeam: { type: Schema.Types.ObjectId, ref: 'Team' },
   created: { type: Date },
   updated: { type: Date, default: Date.now },
@@ -19,6 +21,8 @@ export interface IncidentDocument extends Document {
   description: String;
   location: ILocation;
   photos: string[];
+  resolved: boolean;
+  priority: string;
   team: Team;
   created: Date;
 }
@@ -37,8 +41,12 @@ export class Incident {
   description: string;
   @Field(() => Location, { nullable: true })
   location: Location;
-  @Field(() => [String])
+  @Field(() => [String], {nullable: true})
   photos: string[];
+  @Field(() => Boolean)
+  resolved: boolean;
+  @Field({nullable: true})
+  priority: string;
   @Field(() => Team, { nullable: true })
   assignedTeam: Team;
   @Field()
@@ -69,12 +77,16 @@ export class UpdateIncidentDTO {
   title: string;
   @Field({ nullable: true })
   description: string;
-  @Field(() => [String])
+  @Field(() => [String], {nullable: true})
   photos: string[];
+  @Field(() => Boolean)
+  resolved: boolean;
+  @Field({ nullable: true })
+  priority: string;
   @Field(() => LocationDTO, { nullable: true })
   location: Location;
   @Field({ nullable: true })
   assignedTeamId: string;
-  @Field()
+  @Field({nullable: true})
   created: Date
 }
