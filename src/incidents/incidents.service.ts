@@ -38,7 +38,6 @@ export class IncidentsService {
     const team = await this.teamsService.getTeam(incident.assignedTeamId);
     if (!team) throw new Error('Team not found');
     const assignedTeamObjectId = Types.ObjectId(incident.assignedTeamId)
-    console.log(incident)
     return await this.incident.create({...incident, assignedTeam: assignedTeamObjectId, resolved: false})
   }
 

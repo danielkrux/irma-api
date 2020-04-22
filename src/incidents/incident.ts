@@ -1,7 +1,7 @@
 import { Document, Schema } from 'mongoose';
 import { ObjectType, Field, InputType } from 'type-graphql';
 import { Team } from '../teams/team';
-import { Location, ILocation, LocationSchema, LocationDTO } from '../Models/location';
+import { Location, ILocation, LocationSchema, LocationDTO } from '../models/location';
 
 export const IncidentSchema = new Schema({
   title: String,

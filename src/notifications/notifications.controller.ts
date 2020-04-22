@@ -2,11 +2,12 @@ import { Controller, Post, Req, Get, Param } from '@nestjs/common';
 import { Request } from 'express';
 import { createHash } from 'crypto'
 import { sendNotification, setVapidDetails } from 'web-push'
+import { UsersService } from '../users/users.service';
 
 @Controller('notifications')
 export class NotificationsController {
   vapidKeys = { privateKey: 'lVfbUc_GkZJm7ST0DWMnvDpChinXE3-0cBQ69AscFJ4', publicKey: 'BH1pLWHVdILTbfMYYxK5o-I-uuqofohNYoRUU-L_-A0TgIQ7Z7KzGKwEoNjmJ-Gqe29B96wye1XuVNUCAgJ-8pk' }
-  subscribtions = {
+  subscriptions = {
     "74cff3641f136c5119e71c9e3378682c": {
       "endpoint": "https://fcm.googleapis.com/fcm/send/eMLjeLWkhqI:APA91bE2z_HnoEhslLi_syjLJQ7WtFoMB3HTtT2-ElkBLUZlGcyPLEotCAt8ISNMxAu2pHyr6r2joXHGJ-2_TSMMw7WdrugIeRZcybt1fk8nBKiktwMCxQlHN-Lkj8P6pfVEwb1_bytp",
       "exporationTime": null,
@@ -17,28 +18,31 @@ export class NotificationsController {
     }
   }
 
-  constructor() {
+  constructor(
+    private usersService: UsersService,
+    ) {
     setVapidDetails("mailto:irma@ctg.com", this.vapidKeys.publicKey, this.vapidKeys.privateKey);
   }
 
   @Post('/subscription')
-  subscribtion(@Req() request: Request) {
-    const subscribtionRequest = request.body;
-    console.log(subscribtionRequest)
-    const subscribtionId = this.createHash(JSON.stringify(subscribtionRequest))
-    return { id: subscribtionId }
+  async subscription(@Req() request: Request) {
+    const subscriptionRequest = request.body.subscription;
+    const userId = request.body.userId;
+    const subscriptionId = this.createHash(JSON.stringify(subscriptionRequest));
+    this.usersService.updateUserNotificationSubscribtion(userId, {subscriptionId, ...subscriptionRequest})
+    return { id: subscriptionId }
   }
 
   @Get('/subscription/:id')
   sendPushNotification(@Param() params) {
-    const subsribtionId = params.id;
-    const pushSubscribtion = this.subscribtions[subsribtionId]
-    console.log(pushSubscribtion)
+    const subscriptionId = params.id;
+    const pushSubscription = this.subscriptions[subscriptionId]
     sendNotification(
-      pushSubscribtion,
+      pushSubscription,
       JSON.stringify({
-        title: "This is a test!",
-        text: "Hey! This is a push notification",
+        title: "Update from IRMA",
+        text: "Incident added for your team, check it out!",
+        url: "http://localhost:3000/",
       })
     )
   }

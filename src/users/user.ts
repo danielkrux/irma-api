@@ -1,11 +1,13 @@
 import { Schema, Document } from "mongoose";
 import { ObjectType, InputType, Field } from "type-graphql";
+import { NotificationSubSchema, NotificationSub } from "../models/notificationSub";
 
 export const UserSchema = new Schema({
   firstname: String,
   lastname: String,
   email: String,
   password: String,
+  notifcationSubscription: NotificationSubSchema
 })
 
 export interface UserDocument extends Document {
@@ -14,6 +16,7 @@ export interface UserDocument extends Document {
   lastname:string;
   password:string;
   email:string;
+  notificationSubscription: NotificationSub
 }
 
 /////////////////////////
@@ -30,6 +33,7 @@ export class User {
   lastname: string;
   @Field({ nullable: true })
   email: string;
+  notificationSubscription: NotificationSub | null
 }
 
 @InputType()
@@ -42,6 +46,7 @@ export class CreateUserDTO {
   email: string;
   @Field()
   password: string;
+  notificationSubscription: null
 }
 
 @InputType()
@@ -54,4 +59,5 @@ export class UpdateUserDTO {
   lastname: string;
   @Field({ nullable: true })
   email: string;
+  notificationSubscription: NotificationSub
 }
