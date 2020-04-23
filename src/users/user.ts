@@ -7,7 +7,7 @@ export const UserSchema = new Schema({
   lastname: String,
   email: String,
   password: String,
-  notifcationSubscription: NotificationSubSchema
+  notificationSubscription: NotificationSubSchema
 })
 
 export interface UserDocument extends Document {

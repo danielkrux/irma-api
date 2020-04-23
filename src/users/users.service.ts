@@ -4,8 +4,6 @@ import { UserDocument, CreateUserDTO, UpdateUserDTO, User } from './user';
 import { Model } from 'mongoose';
 import { hash } from 'argon2';
 import { NotificationSub } from 'src/models/notificationSub';
-import * as mongoose from 'mongoose'
-
 
 @Injectable()
 export class UsersService {
@@ -15,6 +13,15 @@ export class UsersService {
 
   async getUsers(): Promise<UserDocument[]> {
     return await this.user.find().exec();
+  }
+
+  async getUsersById(userIds: string[]): Promise<UserDocument[]> {
+    let users: any[] = []
+    for (const id of userIds) {
+      const u = await (await this.user.findOne({_id: id})).toObject()
+      users = [...users, u]
+    }
+    return users
   }
 
   async getUser(id: string): Promise<UserDocument> {
@@ -39,9 +46,9 @@ export class UsersService {
   }
 
   async updateUserNotificationSubscribtion(userId: string, notiSub: NotificationSub) {
-    const user = await (await this.user.findById(userId)).toObject();
-    const updatedUser = await this.user.findOneAndUpdate({ _id: userId }, { ...user, notifcationSubscription: notiSub }, { upsert: true, new: true })
-    console.log(updatedUser)
+    const user = await this.user.findById(userId)
+    user.notificationSubscription = notiSub;
+    await user.save()
   }
 
 

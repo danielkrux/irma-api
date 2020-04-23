@@ -1,10 +1,5 @@
 import { Schema, Document } from 'mongoose';
 
-// const KeysSchema = new Schema({
-//   p256dh: String,
-//   auth: String
-// })
-
 export const NotificationSubSchema = new Schema({
   subscriptionId: String,
   endpoint: String,
@@ -19,7 +14,7 @@ export interface NotificationSub extends Document{
   subscriptionId: string;
   endpoint: string;
   exporationTime: string;
-  keys?: {
+  keys: {
     p256dh: string;
     auth: string;
   }
