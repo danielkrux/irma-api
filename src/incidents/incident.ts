@@ -2,6 +2,7 @@ import { Document, Schema } from 'mongoose';
 import { ObjectType, Field, InputType } from 'type-graphql';
 import { Team } from '../teams/team';
 import { Location, ILocation, LocationSchema, LocationDTO } from '../models/location';
+import { NotificationSubSchema, NotificationSub } from '../models/notificationSub';
 
 export const IncidentSchema = new Schema({
   title: String,
@@ -11,6 +12,7 @@ export const IncidentSchema = new Schema({
   resolved: Boolean,
   priority: String,
   assignedTeam: { type: Schema.Types.ObjectId, ref: 'Team' },
+  subscribers: [NotificationSubSchema],
   created: { type: Date },
   updated: { type: Date, default: Date.now },
 });
@@ -24,6 +26,7 @@ export interface IncidentDocument extends Document {
   resolved: boolean;
   priority: string;
   team: Team;
+  subscribers: NotificationSub[]
   created: Date;
 }
 
@@ -41,11 +44,11 @@ export class Incident {
   description: string;
   @Field(() => Location, { nullable: true })
   location: Location;
-  @Field(() => [String], {nullable: true})
+  @Field(() => [String], { nullable: true })
   photos: string[];
   @Field(() => Boolean)
   resolved: boolean;
-  @Field({nullable: true})
+  @Field({ nullable: true })
   priority: string;
   @Field(() => Team, { nullable: true })
   assignedTeam: Team;
@@ -77,9 +80,9 @@ export class UpdateIncidentDTO {
   title: string;
   @Field({ nullable: true })
   description: string;
-  @Field(() => [String], {nullable: true})
+  @Field(() => [String], { nullable: true })
   photos: string[];
-  @Field(() => Boolean)
+  @Field(() => Boolean, { nullable: true })
   resolved: boolean;
   @Field({ nullable: true })
   priority: string;
@@ -87,6 +90,6 @@ export class UpdateIncidentDTO {
   location: Location;
   @Field({ nullable: true })
   assignedTeamId: string;
-  @Field({nullable: true})
+  @Field({ nullable: true })
   created: Date
 }

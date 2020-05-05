@@ -1,8 +1,9 @@
-import { Controller, Post, Req, Get, Param } from '@nestjs/common';
+import { Controller, Post, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { createHash } from 'crypto'
 import { sendNotification, setVapidDetails } from 'web-push'
 import { UsersService } from '../users/users.service';
+import { IncidentsService } from 'src/incidents/incidents.service';
 
 @Controller('notifications')
 export class NotificationsController {
@@ -10,7 +11,8 @@ export class NotificationsController {
 
   constructor(
     private usersService: UsersService,
-    ) {
+    private incidentsService: IncidentsService
+  ) {
     setVapidDetails("mailto:irma@ctg.com", this.vapidKeys.publicKey, this.vapidKeys.privateKey);
   }
 
@@ -19,17 +21,44 @@ export class NotificationsController {
     const subscriptionRequest = request.body.subscription;
     const userId = request.body.userId;
     const subscriptionId = this.createHash(JSON.stringify(subscriptionRequest));
-    this.usersService.updateUserNotificationSubscribtion(userId, {subscriptionId, ...subscriptionRequest})
+    this.usersService.updateUserNotificationSubscribtion(userId, { subscriptionId, ...subscriptionRequest })
     return { id: subscriptionId }
   }
 
-  @Post('/subscription/send')
+  @Post('/subscription/incident')
+  async subscriptionIncident(@Req() request: Request) {
+    const subscriptionRequest = request.body.subscription;
+    const incidentId = request.body.incidentId;
+    const subscriptionId = this.createHash(JSON.stringify(subscriptionRequest));
+    this.incidentsService.updateIncidentNotificationSubscribers(incidentId, {...subscriptionRequest, subscriptionId})
+  }
+
+  @Post('/send/incident/resolved')
   async sendPushNotification(@Req() request: Request) {
+    const incidentId = request.body.incidentId
+    const incident = await this.incidentsService.getIncident(incidentId)
+    const notificationsSubs = incident.subscribers.map(s => s)
+
+    for (const sub of notificationsSubs) {
+      sendNotification(
+        sub,
+        JSON.stringify({
+          title: "Update from IRMA",
+          text: `Incident: ${incident.title} is resolved!`,
+          url: "http://localhost:3000/",
+        })
+      )
+    }
+  }
+
+
+  @Post('/send/incident/added')
+  async sendIncidentAddedNotification(@Req() request: Request) {
     const userIds = request.body.members
     const users = await this.usersService.getUsersById(userIds)
     const notificationsSubs = users.map(u => u.notificationSubscription)
 
-    for(const sub of notificationsSubs) {
+    for (const sub of notificationsSubs) {
       sendNotification(
         sub,
         JSON.stringify({

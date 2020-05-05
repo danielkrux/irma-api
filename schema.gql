@@ -100,7 +100,7 @@ input UpdateIncidentDTO {
   title: String
   description: String
   photos: [String!]
-  resolved: Boolean!
+  resolved: Boolean
   priority: String
   location: LocationDTO
   assignedTeamId: String

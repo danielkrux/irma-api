@@ -1,4 +1,5 @@
 import { Schema, Document } from 'mongoose';
+import { ObjectType, Field, InputType } from 'type-graphql';
 
 export const NotificationSubSchema = new Schema({
   subscriptionId: String,
@@ -10,7 +11,7 @@ export const NotificationSubSchema = new Schema({
   }
 })
 
-export interface NotificationSub extends Document{
+export interface NotificationSub extends Document {
   subscriptionId: string;
   endpoint: string;
   exporationTime: string;
@@ -19,3 +20,4 @@ export interface NotificationSub extends Document{
     auth: string;
   }
 }
+

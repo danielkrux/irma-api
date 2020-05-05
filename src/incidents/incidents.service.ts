@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, isValidObjectId, Types} from 'mongoose';
+import { Model, isValidObjectId, Types, Mongoose } from 'mongoose';
 import {
   IncidentDocument,
   CreateIncidentDTO,
@@ -8,6 +8,7 @@ import {
   Incident,
 } from './incident';
 import { TeamsService } from '../teams/teams.service';
+import { NotificationSub } from 'src/models/notificationSub';
 
 @Injectable()
 export class IncidentsService {
@@ -38,7 +39,7 @@ export class IncidentsService {
     const team = await this.teamsService.getTeam(incident.assignedTeamId);
     if (!team) throw new Error('Team not found');
     const assignedTeamObjectId = Types.ObjectId(incident.assignedTeamId)
-    return await this.incident.create({...incident, assignedTeam: assignedTeamObjectId, resolved: false})
+    return await this.incident.create({ ...incident, assignedTeam: assignedTeamObjectId, resolved: false })
   }
 
   async updateIncident(incident: UpdateIncidentDTO): Promise<IncidentDocument> {
@@ -47,6 +48,12 @@ export class IncidentsService {
         new: true,
       })
     ).save();
+  }
+
+  async updateIncidentNotificationSubscribers(incidentId: number, notiSub: NotificationSub) {
+    const incident = await this.incident.findById(incidentId)
+    incident.subscribers.push(notiSub)
+    await incident.save();
   }
 
   async deleteIncident(incidentId: string): Promise<boolean> {

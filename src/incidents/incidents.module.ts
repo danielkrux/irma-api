@@ -11,6 +11,7 @@ import { TeamsModule } from '../teams/team.module';
     MongooseModule.forFeature([{ name: 'Incident', schema: IncidentSchema }]),
     TeamsModule,
   ],
+  exports: [IncidentsService],
   providers: [IncidentsResolver, IncidentsService],
 })
 export class IncidentsModule {}
