@@ -24,6 +24,7 @@ input CreateUserDTO {
   lastname: String!
   email: String!
   password: String!
+  isSuperAdmin: Boolean = false
 }
 
 """
@@ -127,4 +128,5 @@ type User {
   firstname: String
   lastname: String
   email: String
+  isSuperAdmin: Boolean
 }

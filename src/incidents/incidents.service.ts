@@ -58,6 +58,10 @@ export class IncidentsService {
 
   async deleteIncident(incidentId: string): Promise<boolean> {
     const result = await this.incident.deleteOne({ _id: incidentId }).exec();
-    if (result.ok !== 1) return false;
+    if (result.ok !== 1) { 
+      return false
+    } else {
+      return true
+    }; 
   }
 }

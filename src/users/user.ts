@@ -7,6 +7,7 @@ export const UserSchema = new Schema({
   lastname: String,
   email: String,
   password: String,
+  isSuperAdmin: Boolean,
   notificationSubscription: NotificationSubSchema
 })
 
@@ -16,7 +17,8 @@ export interface UserDocument extends Document {
   lastname:string;
   password:string;
   email:string;
-  notificationSubscription: NotificationSub
+  isSuperAdmin: boolean;
+  notificationSubscription?: NotificationSub
 }
 
 /////////////////////////
@@ -33,7 +35,9 @@ export class User {
   lastname: string;
   @Field({ nullable: true })
   email: string;
-  notificationSubscription: NotificationSub | null
+  @Field({ nullable: true })
+  isSuperAdmin: boolean;
+  notificationSubscription?: NotificationSub | null
 }
 
 @InputType()
@@ -46,6 +50,8 @@ export class CreateUserDTO {
   email: string;
   @Field()
   password: string;
+  @Field({ nullable: true, defaultValue: false })
+  isSuperAdmin: boolean;
   notificationSubscription: null
 }
 
