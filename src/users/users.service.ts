@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { UserDocument, CreateUserDTO, UpdateUserDTO, User } from './user';
 import { Model } from 'mongoose';
 import { hash } from 'argon2';
-import { NotificationSub } from '../models/notificationSub';
+import { NotificationSub } from '../Models2/notificationSub';
 
 @Injectable()
 export class UsersService {

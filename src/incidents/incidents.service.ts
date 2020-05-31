@@ -7,7 +7,7 @@ import {
   UpdateIncidentDTO,
 } from './incident';
 import { TeamsService } from '../teams/teams.service';
-import { NotificationSub } from '../models/notificationSub';
+import { NotificationSub } from '../Models2/notificationSub';
 
 @Injectable()
 export class IncidentsService {
