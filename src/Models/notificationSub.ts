@@ -1,5 +1,4 @@
 import { Schema, Document } from 'mongoose';
-import { ObjectType, Field, InputType } from 'type-graphql';
 
 export const NotificationSubSchema = new Schema({
   subscriptionId: String,

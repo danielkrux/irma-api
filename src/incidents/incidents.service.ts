@@ -1,14 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, isValidObjectId, Types, Mongoose } from 'mongoose';
+import { Model, isValidObjectId, Types } from 'mongoose';
 import {
   IncidentDocument,
   CreateIncidentDTO,
   UpdateIncidentDTO,
-  Incident,
 } from './incident';
 import { TeamsService } from '../teams/teams.service';
-import { NotificationSub } from 'src/models/notificationSub';
+import { NotificationSub } from '../models/notificationSub';
 
 @Injectable()
 export class IncidentsService {
