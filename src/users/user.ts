@@ -1,6 +1,6 @@
 import { Schema, Document } from "mongoose";
 import { ObjectType, InputType, Field } from "type-graphql";
-import { NotificationSubSchema, NotificationSub } from "../Models2/notificationSub";
+import { NotificationSubSchema, NotificationSub } from "../models/notificationSub";
 
 export const UserSchema = new Schema({
   firstname: String,
